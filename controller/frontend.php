@@ -66,6 +66,9 @@ function nouvellevariante()
 
 function ecrireouverture()
 {
+    if (!$_SESSION['admin'])
+        header('Location: /chess/');
+
     $echiquier = new Echiquier;
     $ouvertures = new Ouvertures;
     $nomouverture = '';
@@ -151,6 +154,9 @@ function ecrireouverture()
 
 function ecrirevariante()
 {
+    if (!$_SESSION['admin'])
+        header('Location: /chess/');
+
     $echiquier = new Echiquier;
     $variantes = new Variantes;
     $ouvertures = new Ouvertures;
@@ -343,6 +349,9 @@ function accueil()
 
 function mesparties()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+        
     $uidActif = $_SESSION['uid'];
     $managerPartieproposee = new PartieproposeeManager;
     $joueurs = new JoueurManager;
@@ -363,6 +372,9 @@ function mesparties()
 
 function partiesterminees()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $managerParties = new PartieManager;
     $lesparties = $managerParties->getListPartiesterminees($uidActif);
@@ -373,6 +385,9 @@ function partiesterminees()
 
 function partiesproposees()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+        
     $uidActif = $_SESSION['uid'];
     $managerPartieproposee = new PartieproposeeManager;
     $joueurs = new JoueurManager;
@@ -383,6 +398,9 @@ function partiesproposees()
 
 function statistiques()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $managerParties = new PartieManager;
     $joueur = $managerParties->trouveJoueur($uidActif);
@@ -414,6 +432,9 @@ function statistiques()
 
 function profil()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     if (isset($_GET['pw1']))
         $pw1 = $_GET['pw1'];
     if (isset($_GET['pw2']))
@@ -427,6 +448,9 @@ function profil()
 
 function usager()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $sexe = null;
     if (isset($_GET['sexe']))
@@ -468,6 +492,9 @@ function usager()
 
 function maphoto()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $resultat = false;
     $nom_destination = null;
@@ -525,6 +552,9 @@ function parties()
 
 function joueurs()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerJoueurs = new JoueurManager;
     $joueurs = $managerJoueurs->getList();
     
@@ -533,6 +563,9 @@ function joueurs()
 
 function statistica()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $statistiques = new StatistiqueManager;
     $nbpartiesjouees = $statistiques->nbpartiesjouees();
     $managerJoueurs = new JoueurManager;
@@ -559,6 +592,9 @@ function statistica()
 
 function montrerPartie($nopartie)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $parties = new PartieManager;
     $joueurs = new JoueurManager;
     $ouvertures = new Ouvertures;
@@ -643,12 +679,18 @@ function montrerPartie($nopartie)
 
 function jouerlecoup($nopartie,$coup,$changementB,$changementN)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerParties = new PartieManager;
     $managerParties->jouer($nopartie,$coup,$changementB,$changementN);
 }
 
 function proposerpartie()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $proposeur = 0;
     if (isset($_GET['proposeur']))
@@ -674,6 +716,9 @@ function proposerpartie()
 
 function mespartiesproposees()
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $uidActif = $_SESSION['uid'];
     $managerPartieproposee = new PartieproposeeManager;
     $joueurs = new JoueurManager;
@@ -684,24 +729,36 @@ function mespartiesproposees()
 
 function acceptation($nopartie)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerParties = new PartieManager;
     $lesparties = $managerParties->acepter($nopartie,$_SESSION['uid']);
 }
 
 function refus($nopartie,$but)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerParties = new PartieproposeeManager;
     $lesparties = $managerParties->refuser($nopartie,$but);
 }
 
 function effacer($nopartie,$but)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerParties = new PartieproposeeManager;
     $lesparties = $managerParties->refuser($nopartie,$but);
 }
 
 function effacerjoueur($uid)
 {
+    if (!$_SESSION['admin'])
+        header('Location: /chess/');
+
     $managerJoueurs = new JoueurManager;
     $managerJoueurs->effacer($uid);
 }
@@ -939,6 +996,9 @@ function terminerpartie($nopartie)
 
 function joueur($id)
 {
+    if (!isset($_SESSION['uid']))
+        header('Location: /chess/');
+
     $managerjoueurs = new JoueurManager;
     $individu = $managerjoueurs->trouveJoueur($id);
     $managerStatistiques = new StatistiqueManager;
