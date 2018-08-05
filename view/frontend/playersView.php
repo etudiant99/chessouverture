@@ -7,7 +7,7 @@
 <div class="decompte">
     <table width="600">
     <?php
-    if ($_SESSION['pseudo'] == 'etudiant')
+    if ($_SESSION['admin'])
     { ?>
         <tr><th>rang</th><th style="text-align: left;">pseudo</th><th></th><th>elo</th><th>connecté(e) le</th><th>parties en cours</th><th>inscrit le</th></tr>
     <?php
@@ -33,14 +33,14 @@
         $contenujoueur .= 'Gains: '.$statistique->gainstotaux().'<br /><br />';
         $detail = $joueur->detailJoueur($joueur->uid());
         $nb_parties = $managerJoueurs->count($detail['uid']);
-        if ($_SESSION['pseudo'] == 'etudiant')
+        if ($_SESSION['admin'])
         {
             ?>
             <tr>
                 <td><?php echo $compteur ?></td>
                 <td style="text-align: left;" class="infobulle" data-info="<?php echo $contenujoueur; ?><img src='<?php echo $joueur->photo() ?>'"><?php echo $joueur->pseudoimage() ?></td>
                 <?php
-                if ($joueur->pseudo() == 'etudiant')
+                if ($joueur->uid() == '1')
                 {
                     ?>
                     <td><img border="0" src="public/images/vide.gif" width="20" height="15" /></td>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['admin'] = false;
 
 function chess()
 {
@@ -265,6 +266,11 @@ function connection()
         $statut_pseudo = $resultat['pseudo_ok'];
         if ($statut_pseudo == true)
         {
+            if ($_SESSION['uid'] == '1')
+                $_SESSION['admin'] =  true;
+            else
+                $_SESSION['admin'] =  false;
+            
             $mesparties = $parties->partieencours($pseudo);
             if ($mesparties != null)
                 header('Location: ./?action=mes parties');
@@ -1082,7 +1088,7 @@ function coupvariante()
         
     $parties = new PartieManager;
     $variantes = new Variantes;
-    $variante = $variantes->getVariante($idvariante);
+    $variante = $variantes->getVariante($idvariante);//var_dump($variante);
     $nomouverture = $variante->getOuverture();
     $nomvariante = $variante->getVariante();
     $type = $variante->getType();

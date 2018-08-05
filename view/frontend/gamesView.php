@@ -59,4 +59,10 @@ else
 ?>
 
 <?php $content = ob_get_clean(); ?>
-<?php require('template.php'); ?>
+<?php
+    if (isset($_SESSION['uid']))
+        require('template.php');
+    else
+        require('starttemplate.php');
+    
+?>

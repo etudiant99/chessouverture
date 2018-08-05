@@ -30,7 +30,7 @@ class Partie  extends PartieManager
     private $_changementN;
     protected $_reserveBlanche;
     protected $_reserveNoire;
-    protected $_cliquable;
+    protected $_cliquable = false;
     protected $_imagemacouleur;
     protected $_adversaire;
     protected $_lesblancs;
@@ -223,6 +223,8 @@ class Partie  extends PartieManager
     
     public function setUsercolor()
     {
+        if (!isset($_SESSION['uid']))
+            return;
         $uidActif = $_SESSION['uid'];
         if ($uidActif == $this->uidb())
         {
@@ -362,6 +364,8 @@ class Partie  extends PartieManager
 
     public function cliquable()
     {
+        if (!isset($_SESSION['uid']))
+            return;
         $uidActif = $_SESSION['uid'];
         $trait = $this->getTrait(); // 1 si blanc   &  -1 si noir
         $cliquable = false;

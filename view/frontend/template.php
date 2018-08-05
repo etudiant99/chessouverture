@@ -25,16 +25,16 @@
                'mes statistiques' => 'Mes statistiques',
                'profil' => 'Profil',
                'deconnection' => 'deconnection');
-        $publique = array('choix' => 'Les ouvertures',
-                'les parties' => 'Les parties',
-                'les joueurs' => 'Les joueurs',
+        $publique = array('choix' => 'Ouvertures',
+                'les parties' => 'Parties en cours',
+                'les joueurs' => 'Joueurs',
                 'statistiques' => 'Statistiques');
         ?>
         <header>
             <div class="petitecran">
                 <img src="monlogo.gif" />
                 <div id="messagebienvenue">
-                    Bienvenue <?php echo $_SESSION['pseudo']; ?>
+                    Bienvenue <?php if (isset($_SESSION['pseudo'])) echo $_SESSION['pseudo']; ?>
                 </div>
             </div>
         </header>

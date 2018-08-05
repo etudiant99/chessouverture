@@ -1,11 +1,19 @@
 <?php $title = 'Variantes'; ?>
 <?php ob_start(); ?>
 
+<?php
+if ($_SESSION['admin'])
+{
+    ?>
+
 <form class="agauche">
     <input type="hidden"   name="action"  value="nouvellevariante" />
     <input type="hidden"   name="ouverture"  value="<?php echo $_GET['id'] ?>" />
     <button name="nouvellevariante" value="yes">Ajouter variante</button>
 </form>
+<?php
+}
+?>
 
 <h1><?= $ouverture->getOuverture(); ?></h1>
 <h4><?= $ouverture->getType(); ?></h4>
@@ -49,7 +57,20 @@ if ($variantes != null)
         ?>
         <div class="col-sm-4">
             <br />
-            <h6><a href="?action=coupvariante&id=<?php echo $variante->getId(); ?>"><?= $variante->getVariante() ?></a><a href="?action=variantes&id=<?php echo $_GET['id'] ?>&but=effacer&variante=<?php echo $variante->getId(); ?>"onclick="if(!confirm('Voulez-vous vraiment effacer  <?php echo $variante->getVariante() ?> ?')) return false;"><img src="public/images/effacer.png" width="20" height="15" /></a></h6>
+            <?php
+            if ($_SESSION['admin'])
+            {
+                ?>
+                <h6><a href="?action=coupvariante&id=<?php echo $variante->getId(); ?>"><?= $variante->getVariante() ?></a><a href="?action=variantes&id=<?php echo $_GET['id'] ?>&but=effacer&variante=<?php echo $variante->getId(); ?>"onclick="if(!confirm('Voulez-vous vraiment effacer  <?php echo $variante->getVariante() ?> ?')) return false;"><img src="public/images/effacer.png" width="20" height="15" /></a></h6>
+                <?php
+            }
+            else
+            {
+                ?>
+                <h6><a href="?action=coupvariante&id=<?php echo $variante->getId(); ?>"><?= $variante->getVariante() ?></a></h6>
+                <?php
+            }
+            ?>
             <?php
             $coups = $variante->getListecoups();
             $compteur = 0;
@@ -89,4 +110,10 @@ if ($variantes != null)
 
 
 <?php $content = ob_get_clean(); ?>
-<?php require('template.php'); ?>
+<?php
+    if (isset($_SESSION['uid']))
+        require('template.php');
+    else
+        require('starttemplate.php');
+    
+?>
