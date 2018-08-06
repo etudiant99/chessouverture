@@ -5,13 +5,12 @@
 if ($_SESSION['admin'])
 {
     ?>
-
-<form class="agauche">
-    <input type="hidden"   name="action"  value="nouvellevariante" />
-    <input type="hidden"   name="ouverture"  value="<?php echo $_GET['id'] ?>" />
-    <button name="nouvellevariante" value="yes">Ajouter variante</button>
-</form>
-<?php
+    <form class="agauche">
+        <input type="hidden"   name="action"  value="nouvellevariante" />
+        <input type="hidden"   name="ouverture"  value="<?php echo $_GET['id'] ?>" />
+        <button name="nouvellevariante" value="yes">Ajouter variante</button>
+    </form>
+    <?php
 }
 ?>
 

@@ -33,6 +33,7 @@
         $contenujoueur .= 'Gains: '.$statistique->gainstotaux().'<br /><br />';
         $detail = $joueur->detailJoueur($joueur->uid());
         $nb_parties = $managerJoueurs->count($detail['uid']);
+        
         if ($_SESSION['admin'])
         {
             ?>
@@ -40,7 +41,7 @@
                 <td><?php echo $compteur ?></td>
                 <td style="text-align: left;" class="infobulle" data-info="<?php echo $contenujoueur; ?><img src='<?php echo $joueur->photo() ?>'"><?php echo $joueur->pseudoimage() ?></td>
                 <?php
-                if ($joueur->uid() == '1')
+                if ($joueur->getAdmin())
                 {
                     ?>
                     <td><img border="0" src="public/images/vide.gif" width="20" height="15" /></td>

@@ -2,14 +2,21 @@
 <?php ob_start(); ?>
 
 <?php
-if ($_SESSION['admin'])
+if (isset($_SESSION['uid']))
 {
-    ?>
-    <form>
-        <input type="hidden"   name="action"  value="nouvelleouverture" />
-        <input type="hidden"   name="type"  value="<?php echo $_GET['type']; ?>" />
-        <button class="agauche" name="nouvelle" value="yes">Ajouter ouverture</button>
-    </form>
+    $uidActif = $_SESSION['uid'];
+    $joueurs = new JoueurManager;
+    $lejoueur = $joueurs->trouveJoueur($uidActif);
+}
+if (isset($lejoueur))
+    if ($lejoueur->getAdmin() == true)
+    {
+        ?>
+        <form>
+            <input type="hidden"   name="action"  value="nouvelleouverture" />
+            <input type="hidden"   name="type"  value="<?php echo $_GET['type']; ?>" />
+            <button class="agauche" name="nouvelle" value="yes">Ajouter ouverture</button>
+        </form>
 <?php
 }
 ?>

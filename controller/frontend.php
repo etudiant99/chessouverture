@@ -236,7 +236,13 @@ function variantes()
 {
     $ouvertures = new Ouvertures;
     $lesvariantes = new Variantes;
-    
+
+    if (isset($_SESSION['uid']))
+        if ($_SESSION['uid'] == '1')
+            $_SESSION['admin'] =  true;
+        else
+            $_SESSION['admin'] =  false;
+
     if (isset($_GET['id']))
         $idOuverture = $_GET['id'];
     if (isset($_GET['but']))
@@ -272,10 +278,11 @@ function connection()
         $statut_pseudo = $resultat['pseudo_ok'];
         if ($statut_pseudo == true)
         {
-            if ($_SESSION['uid'] == '1')
-                $_SESSION['admin'] =  true;
-            else
-                $_SESSION['admin'] =  false;
+            if (isset($_SESSION['uid']))
+                if ($_SESSION['uid'] == '1')
+                    $_SESSION['admin'] =  true;
+                else
+                    $_SESSION['admin'] =  false;
             
             $mesparties = $parties->partieencours($pseudo);
             if ($mesparties != null)
@@ -293,6 +300,7 @@ function deconnection()
     $uidActif = $_SESSION['uid'];
     unset($_SESSION['uid']);
     unset($_SESSION['pseudo']);
+    unset($_SESSION['admin']);
     $managerconnections = new ConnectionManager;
     $managerconnections->quitter($uidActif);
 }
@@ -351,8 +359,8 @@ function mesparties()
 {
     if (!isset($_SESSION['uid']))
         header('Location: /chess/');
-        
-    $uidActif = $_SESSION['uid'];
+    
+    $uidActif = $_SESSION['uid'];    
     $managerPartieproposee = new PartieproposeeManager;
     $joueurs = new JoueurManager;
     $mespartiesproposees = $managerPartieproposee->getListpppersonnelles($uidActif);
@@ -554,6 +562,12 @@ function joueurs()
 {
     if (!isset($_SESSION['uid']))
         header('Location: /chess/');
+    
+    if (isset($_SESSION['uid']))    
+        if ($_SESSION['uid'] == '1')
+            $_SESSION['admin'] =  true;
+        else
+            $_SESSION['admin'] =  false;
 
     $managerJoueurs = new JoueurManager;
     $joueurs = $managerJoueurs->getList();

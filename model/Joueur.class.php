@@ -15,10 +15,12 @@ class Joueur extends CoupManager
     private $_description;
     private $_pays;
     private $_photo;
+    private $_admin = false;
     
     public function __construct(array $donnees)
     {
         $this->hydrate($donnees);
+        $this->setAdmin();
     }
     
     public function hydrate(array $donnees)
@@ -32,6 +34,18 @@ class Joueur extends CoupManager
         }
     }
 
+    public function setAdmin()
+    {
+        if ($this->uid() == '1')
+            $this->_admin = true;
+        else
+            $this->_admin = false;
+    }
+    public function getAdmin()
+    {
+        return $this->_admin;
+    }
+    
     public function setUid($id)
     {
         $this->_uid = $id;
