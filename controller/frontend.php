@@ -28,7 +28,13 @@ function ouvertures()
         $item = $_GET['item'];
         $ouvertures->effacerOuverture($item);
     }
-  
+
+    if (isset($_SESSION['uid']))
+        if ($_SESSION['uid'] == '1')
+            $_SESSION['admin'] =  true;
+        else
+            $_SESSION['admin'] =  false;
+
     $type = $ouvertures->getType($idType);
     $lesouvertures = $type->getOuvertures();
 
@@ -40,6 +46,12 @@ function nouvelleouverture()
 {
     $ouvertures = new Ouvertures;
     
+    if (isset($_SESSION['uid']))
+        if ($_SESSION['uid'] == '1')
+            $_SESSION['admin'] =  true;
+        else
+            $_SESSION['admin'] =  false;
+
     $idType = 1;
     if (isset($_GET['type']))
         $idType = $_GET['type'];
