@@ -1,58 +1,170 @@
-DROP TABLE IF EXISTS `coups_ouverture`;
-DROP TABLE IF EXISTS `coups_variantes`;
-DROP TABLE IF EXISTS `lescoups`;
-DROP TABLE IF EXISTS `ouvertures`;
-DROP TABLE IF EXISTS `ouverture_variantes`;
-DROP TABLE IF EXISTS `types`;
-DROP TABLE IF EXISTS `variantes`;
+CREATE DATABASE IF NOT EXISTS moi  DEFAULT CHARACTER SET = 'utf8';
+use moi;
+DROP TABLE IF EXISTS coups;
+DROP TABLE IF EXISTS login;
+DROP TABLE IF EXISTS parties;
+DROP TABLE IF EXISTS partiesproposees;
+DROP TABLE IF EXISTS statistiques;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS verif;
+DROP TABLE IF EXISTS coups_ouverture;
+DROP TABLE IF EXISTS coups_variante;
+DROP TABLE IF EXISTS lescoups;
+DROP TABLE IF EXISTS ouverturepropose;
+DROP TABLE IF EXISTS ouvertures;
+DROP TABLE IF EXISTS ouverture_variantes;
+DROP TABLE IF EXISTS types;
+DROP TABLE IF EXISTS varianteproposee;
+DROP TABLE IF EXISTS variantes;
 
-CREATE TABLE `lescoups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `coup` varchar(25) NOT NULL,
+CREATE TABLE IF NOT EXISTS coups (
+  ordre int(11) NOT NULL AUTO_INCREMENT,
+  cip varchar(5) NOT NULL,
+  coups varchar(10) NOT NULL,
+  PRIMARY KEY (ordre)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS login (
+  uid int(4) NOT NULL AUTO_INCREMENT,
+  pseudo varchar(20) NOT NULL,
+  elo int(4) NOT NULL DEFAULT '1500',
+  coefficient int(4) NOT NULL,
+  bidon varchar(40) DEFAULT NULL,
+  connecte tinyint(1) NOT NULL,
+  date_inscription date NOT NULL,
+  PRIMARY KEY (uid)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `parties` (
+  `gid` int(5) NOT NULL AUTO_INCREMENT,
+  `uidb` int(4) DEFAULT NULL,
+  `uidn` int(4) DEFAULT NULL,
+  `date_debut` date DEFAULT NULL,
+  `date_fin` date NOT NULL,
+  `date_dernier_coup` datetime DEFAULT NULL,
+  `cadencep` int(2) DEFAULT NULL,
+  `reservep` int(2) DEFAULT NULL,
+  `reserve_uidb` float NOT NULL,
+  `reserve_uidn` float NOT NULL,
+  `finalisation` int(2) NOT NULL,
+  `commentaire` text NOT NULL,
+  `nulle` int(4) NOT NULL,
+  `efface` int(11) NOT NULL,
+  PRIMARY KEY (`gid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `partiesproposees` (
+  `gidp` int(5) NOT NULL AUTO_INCREMENT,
+  `prospect` int(4) DEFAULT NULL,
+  `origine` int(4) NOT NULL,
+  `macouleur` char(1) DEFAULT NULL,
+  `cadence` int(2) NOT NULL,
+  `reserve` int(2) NOT NULL,
+  `commentaire` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`gidp`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `statistiques` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `uid` int(4) NOT NULL,
+  `gains_b` int(3) DEFAULT '0',
+  `pertes_b` int(3) DEFAULT '0',
+  `nulles_b` int(3) DEFAULT '0',
+  `gains_n` int(3) DEFAULT '0',
+  `pertes_n` int(3) DEFAULT '0',
+  `nulles_n` int(3) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `ouvertures` (
+CREATE TABLE IF NOT EXISTS `users` (
+  `uid` int(4) NOT NULL AUTO_INCREMENT,
+  `prenom` varchar(15) DEFAULT NULL,
+  `nom` varchar(15) DEFAULT NULL,
+  `sexe` char(1) DEFAULT NULL,
+  `naissance` date DEFAULT NULL,
+  `pays` varchar(15) DEFAULT NULL,
+  `description` text,
+  `photo` varchar(1) NOT NULL DEFAULT 'n',
+  `courriel` varchar(40) DEFAULT NULL,
+  `date_connection` datetime DEFAULT NULL,
+  `date_inscription` date NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `verif` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `uid` int(4) NOT NULL,
+  `session` varchar(30) NOT NULL,
+  `timestand` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS coups_variante (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_variante int(11) NOT NULL,
+  id_coup int(11) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE lescoups (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  coup varchar(25) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ouvertureproposee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lecoup` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ouvertures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ouverture` varchar(50) NOT NULL,
   `id_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `coups_ouverture` (
+CREATE TABLE IF NOT EXISTS `coups_ouverture` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ouverture` int(11) NOT NULL,
   `id_coup` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `ouverture_variantes` (
+CREATE TABLE IF NOT EXISTS `ouverture_variantes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_ouverture` int(11) NOT NULL,
   `id_variante` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS types (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  type varchar(50) NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `coups_variantes` (
+CREATE TABLE IF NOT EXISTS `coups_variantes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_variante` int(11) NOT NULL,
   `id_coup` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE `variantes` (
+CREATE TABLE IF NOT EXISTS `varianteproposee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lecoup` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `variantes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `variante` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `coups_ouverture` (`id`, `id_ouverture`, `id_coup`) VALUES
+INSERT INTO coups_ouverture (id, id_ouverture, id_coup) VALUES
 (3, 2, 3),
 (4, 2, 4),
 (6, 3, 6),
@@ -266,7 +378,7 @@ INSERT INTO `coups_ouverture` (`id`, `id_ouverture`, `id_coup`) VALUES
 (244, 11, 542),
 (245, 11, 543);
 
-INSERT INTO `coups_variante` (`id`, `id_variante`, `id_coup`) VALUES
+INSERT INTO coups_variante (id, id_variante, id_coup) VALUES
 (1, 1, 3),
 (4, 2, 6),
 (5, 2, 13),
@@ -1207,7 +1319,7 @@ INSERT INTO `coups_variante` (`id`, `id_variante`, `id_coup`) VALUES
 (965, 87, 387),
 (966, 87, 502);
 
-INSERT INTO `lescoups` (`id`, `coup`) VALUES
+INSERT INTO lescoups (id, coup) VALUES
 (3, 'e2-e4 e7-e6'),
 (4, 'd2-d4 d7-d5'),
 (5, 'e4-e5 c7-c5'),
@@ -1793,7 +1905,7 @@ INSERT INTO `lescoups` (`id`, `coup`) VALUES
 (605, '0-0 Cg8-e7'),
 (606, 'Cd2-b3 Fc5-d6');
 
-INSERT INTO `ouverture_variantes` (`id`, `id_ouverture`, `id_variante`) VALUES
+INSERT INTO ouverture_variantes (id, id_ouverture, id_variante) VALUES
 (1, 5, 2),
 (2, 5, 1),
 (3, 5, 3),
@@ -1895,76 +2007,76 @@ INSERT INTO `ouverture_variantes` (`id`, `id_ouverture`, `id_variante`) VALUES
 (100, 43, 109),
 (101, 2, 110);
 
-INSERT INTO `ouvertures` (`id`, `ouverture`, `id_type`) VALUES
-(1, 'Défense sicilienne', 2),
-(2, 'Partie française', 2),
+INSERT INTO ouvertures (id, ouverture, id_type) VALUES
+(1, 'DÃ©fense sicilienne', 2),
+(2, 'Partie franÃ§aise', 2),
 (4, 'Partie viennoise', 1),
 (5, 'Partie espagnole', 1),
 (6, 'Partie des trois cavaliers', 1),
-(8, 'Défense Pirc', 2),
+(8, 'DÃ©fense Pirc', 2),
 (9, 'Gambit Evans', 1),
 (10, 'Gambit du roi', 1),
 (11, 'Gambit de la dame orthodoxe', 3),
-(12, 'Défense est-indienne', 4),
-(13, 'Défense Caro-Kann', 2),
+(12, 'DÃ©fense est-indienne', 4),
+(13, 'DÃ©fense Caro-Kann', 2),
 (16, 'Partie des quatre cavaliers', 1),
 (17, 'Partie italienne', 1),
 (18, 'Partie hongroise', 1),
-(19, 'Défense des deux cavaliers', 1),
+(19, 'DÃ©fense des deux cavaliers', 1),
 (20, 'Attaque Max-Lange', 1),
-(21, 'Partie écossaise', 1),
-(22, 'Défense russe', 1),
-(23, 'Défense Philidor', 1),
+(21, 'Partie Ã©cossaise', 1),
+(22, 'DÃ©fense russe', 1),
+(23, 'DÃ©fense Philidor', 1),
 (24, 'Gambit du centre', 1),
 (25, 'Gambit du nord', 1),
-(32, 'Défense Alekhine', 2),
-(33, 'Défense scandinave', 2),
-(34, 'Défense scandinave moderne', 2),
-(35, 'Gambit de la dame néo-orthodoxe', 3),
-(36, 'Défense Tarrasch classique', 3),
-(37, 'Défense semi-slave', 3),
-(38, 'Défense slave', 3),
-(39, 'Défense de Méran', 3),
-(40, 'Défense Marshall', 3),
-(41, 'Gambit de la dame acceptée', 3),
-(42, 'Défense Nimzovitch', 4),
-(43, 'Défense Grunfeld', 4),
-(44, 'Défense ouest-indienne', 4),
-(47, 'Défense néo-mérane', 3),
-(48, 'Système Colle', 3);
+(32, 'DÃ©fense Alekhine', 2),
+(33, 'DÃ©fense scandinave', 2),
+(34, 'DÃ©fense scandinave moderne', 2),
+(35, 'Gambit de la dame nÃ©o-orthodoxe', 3),
+(36, 'DÃ©fense Tarrasch classique', 3),
+(37, 'DÃ©fense semi-slave', 3),
+(38, 'DÃ©fense slave', 3),
+(39, 'DÃ©fense de MÃ©ran', 3),
+(40, 'DÃ©fense Marshall', 3),
+(41, 'Gambit de la dame acceptÃ©e', 3),
+(42, 'DÃ©fense Nimzovitch', 4),
+(43, 'DÃ©fense Grunfeld', 4),
+(44, 'DÃ©fense ouest-indienne', 4),
+(47, 'DÃ©fense nÃ©o-mÃ©rane', 3),
+(48, 'SystÃ¨me Colle', 3);
 
-INSERT INTO `types` (`id`, `type`) VALUES
-(1, 'débuts ouverts'),
-(2, 'débuts semi-ouverts'),
-(3, 'débuts fermés'),
-(4, 'débuts semi-fermés');
+INSERT INTO types (id, type) VALUES
+(1, 'dÃ©buts ouverts'),
+(2, 'dÃ©buts semi-ouverts'),
+(3, 'dÃ©buts fermÃ©s'),
+(4, 'dÃ©buts semi-fermÃ©s');
 
-INSERT INTO `variantes` (`id`, `variante`) VALUES
-(1, 'Défense Steinitz'),
-(2, 'Défense berlinoise'),
-(3, 'Défense Bird'),
-(4, 'Défense Cordel'),
-(5, 'Défense Cordel moderne'),
-(6, 'Défense de gambit'),
-(7, 'Échange'),
-(8, 'Défense ouverte'),
+INSERT INTO variantes (id, variante) VALUES
+(1, 'DÃ©fense Steinitz'),
+(2, 'DÃ©fense berlinoise'),
+(3, 'DÃ©fense Bird'),
+(4, 'DÃ©fense Cordel'),
+(5, 'DÃ©fense Cordel moderne'),
+(6, 'DÃ©fense de gambit'),
+(7, 'Ã‰change'),
+(8, 'DÃ©fense ouverte'),
 (9, 'Alekhine'),
 (10, 'Italienne'),
 (11, 'Russe'),
-(12, 'Défense fermée'),
+(12, 'DÃ©fense fermÃ©e'),
 (13, 'Prise 3. C x e5'),
 (14, 'Avance 3. d2-d4 (Steinitz)'),
 (15, 'Protection du pion R'),
-(16, 'Max-Lange refusée'),
-(17, 'Max-Lange acceptée'),
+(16, 'Max-Lange refusÃ©e'),
+(17, 'Max-Lange acceptÃ©e'),
 (18, 'I'),
 (19, 'II'),
-(20, 'Dragon accéléré'),
-(21, 'Dragon semi-accéléré'),
-(22, 'Système Rauser'),
-(23, 'Système Paulsen'),
-(24, 'Système Taimanov'),
-(25, 'Système de Scheveningue'),
+(20, 'Dragon accÃ©lÃ©rÃ©'),
+(21, 'Dragon semi-accÃ©lÃ©rÃ©'),
+(22, 'SystÃ¨me Rauser'),
+(23, 'SystÃ¨me Paulsen'),
+(24, 'SystÃ¨me Taimanov'),
+(25, 'SystÃ¨me de Scheveningue'),
 (26, 'Echange'),
 (27, 'Avance'),
 (28, 'Protection (Rubinstein)'),
@@ -1976,17 +2088,17 @@ INSERT INTO `variantes` (`id`, `variante`) VALUES
 (34, 'I'),
 (35, 'II'),
 (36, 'II A'),
-(37, 'II B (fermée)'),
+(37, 'II B (fermÃ©e)'),
 (38, 'C (contre-attaque sur e4)'),
 (39, 'C1'),
 (40, 'C2'),
-(41, 'C3 (gambit de Gréco)'),
+(41, 'C3 (gambit de GrÃ©co)'),
 (42, 'I'),
 (43, 'II'),
 (44, 'I'),
 (45, 'II'),
-(46, 'Gambit nordique refusé'),
-(47, 'Gambit Evans refusé'),
+(46, 'Gambit nordique refusÃ©'),
+(47, 'Gambit Evans refusÃ©'),
 (48, 'A'),
 (49, 'B'),
 (50, 'I'),
@@ -1994,7 +2106,7 @@ INSERT INTO `variantes` (`id`, `variante`) VALUES
 (52, 'III (classique)'),
 (53, '3. Fc4'),
 (54, 'Moderne'),
-(55, 'Échange'),
+(55, 'Ã‰change'),
 (56, 'Panov I'),
 (57, 'Panov II'),
 (58, 'Avance I'),
@@ -2008,42 +2120,42 @@ INSERT INTO `variantes` (`id`, `variante`) VALUES
 (68, 'Cavalier dame A'),
 (69, 'Cavalier dame B'),
 (70, 'A'),
-(71, 'Anti-mérane (Stoltz)'),
-(72, 'Anti-mérane (Najdorf)'),
-(73, 'Anti-mérane (Taimanov)'),
-(74, 'Semi-mérane (Tchigorine)'),
-(75, 'Semi-mérane (Bogoljubov)'),
+(71, 'Anti-mÃ©rane (Stoltz)'),
+(72, 'Anti-mÃ©rane (Najdorf)'),
+(73, 'Anti-mÃ©rane (Taimanov)'),
+(74, 'Semi-mÃ©rane (Tchigorine)'),
+(75, 'Semi-mÃ©rane (Bogoljubov)'),
 (76, 'A'),
 (77, 'B'),
-(78, 'Système anti-Colle'),
+(78, 'SystÃ¨me anti-Colle'),
 (80, 'Pression sur d4'),
-(81, 'Fianchetto accéléré'),
+(81, 'Fianchetto accÃ©lÃ©rÃ©'),
 (82, 'Classique'),
 (83, 'De gambit'),
 (84, 'Protection de c4  A'),
 (85, 'Protection de c4  B'),
 (86, 'Sacifice provisoire de c4'),
-(87, 'Refusé (sortie 4. ..., Ff5)'),
-(88, 'Refusé (sortie 4. ..., g6)'),
-(89, 'Gambit slave accepté'),
+(87, 'RefusÃ© (sortie 4. ..., Ff5)'),
+(88, 'RefusÃ© (sortie 4. ..., g6)'),
+(89, 'Gambit slave acceptÃ©'),
 (90, 'Gambit'),
-(91, 'Échange (symétrique)'),
-(92, 'Échange (non symétrique)'),
+(91, 'Ã‰change (symÃ©trique)'),
+(92, 'Ã‰change (non symÃ©trique)'),
 (93, 'Gambit Tarrasch'),
 (94, 'Variante de Prague'),
 (95, 'Semi-classique'),
 (96, '7. Dc2'),
-(97, 'Échange'),
+(97, 'Ã‰change'),
 (98, '5. Cf3'),
-(99, 'Cf3 (échange)'),
+(99, 'Cf3 (Ã©change)'),
 (100, 'Cf3 (fermeture du centre)'),
 (101, 'Cf3 (attente)'),
-(102, 'Système Samisch'),
+(102, 'SystÃ¨me Samisch'),
 (103, 'Samisch (stabilisation)'),
 (104, 'Samisch (fermeture)'),
 (105, 'Samisch (tension)'),
 (106, 'Contre-fianchetto'),
-(107, 'Variante fermée'),
+(107, 'Variante fermÃ©e'),
 (108, 'Samisch'),
-(109, 'Échange'),
+(109, 'Ã‰change'),
 (110, 'Tarrasch (4. ...e6xd5)');
