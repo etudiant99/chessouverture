@@ -370,7 +370,7 @@ function accueil()
 function mesparties()
 {
     if (!isset($_SESSION['uid']))
-        
+        header('Location: '. $_SERVER['DOCUMENT_ROOT']);
     
     $uidActif = $_SESSION['uid'];    
     $managerPartieproposee = new PartieproposeeManager;
