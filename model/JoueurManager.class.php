@@ -296,12 +296,8 @@ class JoueurManager extends StatistiqueManager
     }
     
     public function effacer($uid)
-    {   
-        $sql = "delete from login where uid=?";
-        $this->executerRequete($sql, array($uid));
-        $sql = "delete from users where uid=?";
-        $this->executerRequete($sql, array($uid));
-        $sql = "delete from statistiques where uid=?";
+    {
+        $sql = "delete l.*,u.*,s.* FROM login l inner join users u on l.uid=u.uid inner join statistiques s on l.uid=s.uid WHERE l.uid=?";
         $this->executerRequete($sql, array($uid));
         
         header('Location:  ?action=les joueurs');
