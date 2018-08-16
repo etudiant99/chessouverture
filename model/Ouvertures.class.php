@@ -163,19 +163,7 @@ class Ouvertures extends Variantes
     
     public function effacerOuverture($idOuverture)
     {
-        $sql = 'select * from ouverture_variantes where id_ouverture=?';
-        $q = $this->executerRequete($sql, array($idOuverture));
-        while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-        {
-            $idVariante = $donnees['id_variante'];
-            $sql = 'delete from coups_variante where id_variante=?';
-            $this->executerRequete($sql, array($idVariante));
-            $sql2 = 'delete from variantes where id=?';
-            $this->executerRequete($sql2, array($idVariante));
-        }
-        $sql = 'delete from coups_ouverture where id_ouverture=?';
-        $q = $this->executerRequete($sql, array($idOuverture));
-        $sql = 'delete from ouvertures where id=?';
+        $sql = 'delete ov.*,cv.*,v.*,co.*,o.* from ouverture_variantes ov inner join coups_variante cv on ov.id_variante=cv.id_variante inner join variantes v on ov.id_variante=v.id inner join coups_ouverture co on ov.id_ouverture=co.id_ouverture inner join ouvertures o on ov.id_ouverture=o.id where ov.id_ouverture=?';
         $q = $this->executerRequete($sql, array($idOuverture));
     }
 

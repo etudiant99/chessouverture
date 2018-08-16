@@ -150,11 +150,7 @@ class Variantes  extends CoupManager
     
     public function effacerVariante($idVariante)
     {
-        $sql = 'delete from ouverture_variantes where id_variante=?';
-        $this->executerRequete($sql, array($idVariante));
-        $sql = 'delete from coups_variante where id_variante=?';
-        $this->executerRequete($sql, array($idVariante));
-        $sql = 'delete from variantes where id=?';
+        $sql = 'delete ov.*,cv.*,v.* from ouverture_variantes ov inner join coups_variante cv on ov.id_variante=cv.id_variante inner join variantes v on ov.id_variante=v.id where ov.id_variante=?';
         $this->executerRequete($sql, array($idVariante));
     }
 }
