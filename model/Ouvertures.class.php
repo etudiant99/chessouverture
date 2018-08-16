@@ -153,6 +153,8 @@ class Ouvertures extends Variantes
         }
         $sql = 'truncate table ouvertureproposee';
         $q = $this->executerRequete($sql);
+        
+        header('Location: ?action=ouvertures&type='.$idType);
     }
 
     public function effacerOuvertureTemp()

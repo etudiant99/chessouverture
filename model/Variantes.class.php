@@ -140,6 +140,8 @@ class Variantes  extends CoupManager
         }
         $sql = 'truncate table varianteproposee';
         $q = $this->executerRequete($sql);
+        
+        header('Location: ?action=variantes&id='.$idOuverture);
     }
     
     public function effacerVarianteTemp()
