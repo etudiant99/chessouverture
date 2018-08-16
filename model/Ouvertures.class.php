@@ -163,7 +163,9 @@ class Ouvertures extends Variantes
     
     public function effacerOuverture($idOuverture)
     {
-        $sql = 'delete ov.*,cv.*,v.*,co.*,o.* from ouverture_variantes ov inner join coups_variante cv on ov.id_variante=cv.id_variante inner join variantes v on ov.id_variante=v.id inner join coups_ouverture co on ov.id_ouverture=co.id_ouverture inner join ouvertures o on ov.id_ouverture=o.id where ov.id_ouverture=?';
+        $sql = 'delete cv.*,ov.*,v.* from ouverture_variantes ov inner join coups_variante cv on ov.id_variante=cv.id_variante inner join variantes v on ov.id_variante=v.id where ov.id_ouverture=?';
+        $q = $this->executerRequete($sql, array($idOuverture));
+        $sql = 'delete o.*,co.* from ouvertures o inner join coups_ouverture co on o.id=co.id_ouverture where o.id=?';
         $q = $this->executerRequete($sql, array($idOuverture));
     }
 
